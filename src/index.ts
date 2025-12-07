@@ -16,7 +16,7 @@ if (!PORT || !URI_DB) {
 declare global {
   namespace Express {
     interface Request {
-      // user?: IUserTokenPayload
+      user?: IUserTokenPayload
     }
   }
 }

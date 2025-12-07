@@ -55,7 +55,7 @@ class AuthController {
         return res.status(401).json({ success: false, message: "No autorizado" })
       }
       if (!JWT_SECRET) {
-        return res.json(400).json({ success: false, message: "Variables de entorno incompletas" })
+        return res.status(400).json({ success: false, message: "Variables de entorno incompletas" })
       }
 
       const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: "1h" })
