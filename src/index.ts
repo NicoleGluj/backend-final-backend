@@ -3,6 +3,7 @@ import cors from "cors"
 import { connectDB } from "./config/mongodb"
 import productRouter from "./routes/productRouter"
 import logger from "./config/logger"
+import authRouter from "./routes/authRouter"
 
 process.loadEnvFile()
 
@@ -26,6 +27,7 @@ app.use(express.json())
 app.use(logger)
 
 app.use("/products", productRouter)
+app.use("/auth", authRouter)
 
 app.listen(PORT, () => {
   console.log(`✅ Servidor en escucha en el puerto ${PORT}`)
