@@ -1,6 +1,8 @@
 import express from "express"
 import cors from "cors"
 import { connectDB } from "./config/mongodb"
+import productRouter from "./routes/productRouter"
+import logger from "./config/logger"
 
 process.loadEnvFile()
 
@@ -21,7 +23,9 @@ declare global {
 const app = express()
 app.use(cors())
 app.use(express.json())
-// app.use(logger)
+app.use(logger)
+
+app.use("/products", productRouter)
 
 app.listen(PORT, () => {
   console.log(`✅ Servidor en escucha en el puerto ${PORT}`)
