@@ -1,29 +1,43 @@
 import { Request, Response } from "express"
-import transporter from "../config/emailConfig"
 import createTemplate from "../templates/emailTemplate"
+import { Resend } from "resend"
+
+const resendApiKey = process.env.RESEND_API_KEY
+const emailUser = process.env.EMAIL_USER
+
+if (!resendApiKey) {
+  throw new Error("Falta RESEND_API_KEY en las variables de entorno")
+}
+
+if (!emailUser) {
+  throw new Error("Falta EMAIL_USER en las variables de entorno")
+}
+
+const resend = new Resend(resendApiKey)
+
 
 const emailService = async (req: Request, res: Response) => {
-  const { subject, email: emailUser, message } = req.body
+  const { subject, email: emailUserFromForm, message } = req.body
 
-  if (!subject || !emailUser || !message) {
+  if (!subject || !emailUserFromForm || !message) {
     return res.status(400).json({ success: false, message: "Data invalida" })
   }
 
   try {
-    const info = await transporter.sendMail({
-      from: `"Mensaje de la tienda" <${process.env.EMAIL_USER}>`,
-      replyTo: emailUser,
-      to: process.env.EMAIL_USER,
+    const info = await resend.emails.send({
+      from: "onboarding@resend.dev",
+      replyTo: emailUserFromForm,
+      to: process.env.EMAIL_USER as string,
       subject,
-      html: createTemplate(emailUser, message)
+      html: createTemplate(emailUserFromForm, message)
     })
 
-    res.json({ succeSs: true, message: "Correo fue enviado exitosamente", info })
+    res.json({ success: true, message: "Correo fue enviado exitosamente", info })
 
   } catch (e) {
     const error = e as Error
     console.error("ERROR /email/send:", error)
-    res.status(500).json({ succes: false, error: error.message })
+    res.status(500).json({ success: false, error: error.message })
   }
 }
 

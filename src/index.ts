@@ -1,3 +1,6 @@
+import dotenv from "dotenv"
+dotenv.config()
+
 import express, { Request, Response } from "express"
 import cors from "cors"
 import { connectDB } from "./config/mongodb"
@@ -9,9 +12,6 @@ import path from "node:path"
 import fs from "node:fs"
 import morgan from "morgan"
 import emailService from "./services/emailServices"
-import dotenv from "dotenv"
-
-dotenv.config()
 
 const { PORT, URI_DB } = process.env
 
