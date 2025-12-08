@@ -2,8 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import IUserTokenPayload from "../interfaces/IUserTokenPayload";
 import { verify } from "jsonwebtoken";
 
-process.loadEnvFile()
-
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const SECRET_KEY = process.env.SECRET_KEY
   const header = req.headers.authorization

@@ -3,7 +3,6 @@ import User from "../model/UserModel"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
-process.loadEnvFile()
 const JWT_SECRET = process.env.SECRET_KEY
 
 class AuthController {
