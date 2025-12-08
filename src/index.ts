@@ -10,8 +10,9 @@ import fs from "node:fs"
 import morgan from "morgan"
 import limiter from "./middleware/rateLimitMiddlware"
 import emailService from "./services/emailServices"
+import dotenv from "dotenv"
 
-process.loadEnvFile()
+dotenv.config()
 
 const { PORT, URI_DB } = process.env
 

@@ -1,7 +1,5 @@
 import mongoose from "mongoose"
 
-process.loadEnvFile()
-
 export const connectDB = async () => {
   const uri = process.env.URI_DB
 
