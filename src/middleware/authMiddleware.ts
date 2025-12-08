@@ -9,17 +9,17 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const header = req.headers.authorization
 
   if (!SECRET_KEY) {
-    return res.status(400).json({ success: false, message: "Variables de entorno incompletas" })
+    return res.status(500).json({ success: false, message: "Variables de entorno incompletas" })
   }
   if (!header) {
-    return res.status(400).json({ success: false, message: "El token es requerido" })
+    return res.status(401).json({ success: false, message: "El token es requerido" })
   }
 
 
   const token = header.split(" ")[1]
 
   if (!token) {
-    return res.status(400).json({ success: false, message: "El token es requerido" })
+    return res.status(401).json({ success: false, message: "El token es requerido" })
   }
 
   try {
@@ -30,7 +30,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   } catch (e) {
     const error = e as Error
     console.error("❌ Error en autenticacion", error.message)
-    return res.status(500).json({ success: false, message: "Error en la autenticacion", error: error.message })
+    return res.status(401).json({ success: false, message: "Error en la autenticacion", error: error.message })
   }
 }
 

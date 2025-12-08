@@ -57,8 +57,8 @@ class ProductController {
 
   static addProduct = async (req: Request, res: Response): Promise<void | Response> => {
     try {
-      const { name, description, stock, price, category, image } = req.body
-      // const { file } = req
+      const { name, description, stock, price, category } = req.body
+      const { file } = req
 
       const dataToValidate = {
         name,
@@ -66,7 +66,7 @@ class ProductController {
         stock: +stock,
         price: +price,
         category,
-        // image: file?.path
+        image: file?.path
       }
 
       const validator = createProductSchema.safeParse(dataToValidate)
@@ -143,7 +143,7 @@ class ProductController {
 
     } catch (e) {
       const error = e as Error
-      console.error("❌ Error al actualizar el producto", error.message)
+      console.error("❌ Error al eliminar el producto", error.message)
       res.status(500).json({ success: false, message: "Error al eliminar producto", error: error.message })
     }
   }

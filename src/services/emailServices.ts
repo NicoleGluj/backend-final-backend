@@ -21,7 +21,7 @@ const emailService = async (req: Request, res: Response) => {
 
   } catch (e) {
     const error = e as Error
-    res.status(500).json({ success: false, error: error.message })
+    res.status(500).json({ succes: false, error: error.message })
   }
 }
 

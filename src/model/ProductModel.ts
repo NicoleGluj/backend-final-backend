@@ -1,11 +1,11 @@
 import { model, Model, Schema } from "mongoose";
-import IProduct from "../interfaces/IProudct";
+import IProduct from "../interfaces/IProduct";
 
 const productSchema = new Schema<IProduct>({
   name: { type: String, required: true },
   description: { type: String, default: "No tiene descripcion" },
-  stock: { type: Number, min: 0, default: 0, required: true },
-  price: { type: Number, min: 0, default: 0, required: true },
+  stock: { type: Number, default: 0, required: true },
+  price: { type: Number, default: 0, required: true },
   category: { type: String, default: "No tiene categoria" },
   image: { type: String }
 }, {
