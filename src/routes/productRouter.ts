@@ -8,7 +8,7 @@ const productRouter = Router()
 productRouter.get("/", ProductController.getAllProducts)
 productRouter.get("/:id", ProductController.getProduct)
 productRouter.post("/", authMiddleware, upload.single("image"), ProductController.addProduct)
-productRouter.patch("/:id", authMiddleware, ProductController.updateProduct)
+productRouter.patch("/:id", authMiddleware, upload.single("image"), ProductController.updateProduct)
 productRouter.delete("/:id", authMiddleware, ProductController.deleteProduct)
 
 export default productRouter

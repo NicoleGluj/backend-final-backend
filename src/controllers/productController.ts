@@ -90,7 +90,7 @@ class ProductController {
   static updateProduct = async (req: Request, res: Response): Promise<void | Response> => {
     try {
       const { id } = req.params
-      const { body } = req
+      const { body, file } = req
 
       if (!id) {
         return res.status(400).json({ success: false, message: "ID requerido" })
@@ -100,7 +100,28 @@ class ProductController {
         return res.status(400).json({ success: false, message: "ID invalido" })
       }
 
-      const validator = updateProductSchema.safeParse(body)
+      const existingProduct = await Product.findById(id)
+
+      if (!existingProduct) {
+        return res.status(404).json({ success: false, message: "Producto no encontrado" })
+      }
+
+      const dataToValidate = {
+        name: body.name ?? existingProduct.name,
+        description: body.description ?? existingProduct.description,
+        category: body.category ?? existingProduct.category,
+        price:
+          body.price !== undefined && body.price !== ""
+            ? Number(body.price)
+            : existingProduct.price,
+        stock:
+          body.stock !== undefined && body.stock !== ""
+            ? Number(body.stock)
+            : existingProduct.stock,
+        image: file ? file.path : existingProduct.image
+      }
+
+      const validator = updateProductSchema.safeParse(dataToValidate)
 
       if (!validator.success) {
         return res.status(400).json({ success: false, message: "Datos invalidos al actualizar producto", error: validator.error.flatten().fieldErrors })

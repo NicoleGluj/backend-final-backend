@@ -8,7 +8,7 @@ import IUserTokenPayload from "./interfaces/IUserTokenPayload"
 import path from "node:path"
 import fs from "node:fs"
 import morgan from "morgan"
-import limiter from "./middleware/rateLimitMiddlware"
+// import limiter from "./middleware/rateLimitMiddlware"
 import emailService from "./services/emailServices"
 
 process.loadEnvFile()
@@ -23,7 +23,8 @@ if (!PORT || !URI_DB) {
 declare global {
   namespace Express {
     interface Request {
-      user?: IUserTokenPayload
+      user?: IUserTokenPayload,
+      file?: Express.Multer.File
     }
   }
 }
@@ -32,7 +33,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(logger)
-app.use(limiter)
+// app.use(limiter)
 
 const uploadsPath = path.join(__dirname, "../uploads")
 if (!fs.existsSync(uploadsPath)) {
